@@ -1,56 +1,78 @@
 import React, { useState, useCallback } from 'react'
-import { FlatList, View, Text, TextInput, TouchableOpacity, StyleSheet, Button } from 'react-native'
-import Header from '../components/header'
+import { FlatList, View, Text, TextInput, TouchableOpacity, StyleSheet, Button, Alert } from 'react-native'
+import Header from '../components/Header'
 import CButton from '../components/CButton'
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 const user_baseURL = "http://192.168.43.234:5000/api/v1/user";
 interface LoginScreenProps {
   navigation: any;
 }
 
+//Login screen start from here!!
 const Login = (prop: LoginScreenProps) => {
-
   const [username, setUsername] = useState("");
 
   //login button function // variable scope
   const login = async () => {
-    axios({
-      method: "post",
-      url: `${user_baseURL}/login/${username}`, //
-    }).then((res) => {
-      return res.data.account_status;
-    }).then((status) => {
-      if (status) {
-        prop.navigation.navigate('Home')
-      } else {
-        console.log("NOOOOO")
-      }
-    })
+    if (!username) {
+      console.log('missing username input')
+    } else {
+      axios({
+        method: "post",
+        url: `${user_baseURL}/login/${username}`,
+      }).then((res) => {
+        return res.data.account_status;
+      }).then((status) => {
+        if (status) {
+          //login success
+          try {
+            //save username to secureStore
+            SecureStore.setItemAsync("username", username).then(() => {
+              prop.navigation.navigate('Home');
+            })
+          } catch (e) {
+            console.log(e)
+          }
+        }
+        else {
+          //login failed
+          console.log("Please register this username to login.")
+        }
+      })
+    }
   }
 
+  const register = async () => {
+    if (!username) {
+      console.log('missing username input')
+    } else {
+      axios({
+        method: "post",
+        url: `${user_baseURL}/register/${username}`,
+      }).then((res) => {
+        return res.data.register_status;
+      }).then((status) => {
+        if (status) {
+          //Register success
+          console.log("Register success, please login with the username.")
+        } else {
+          //account already existed
+          console.log("Username has been registered, please login or change a username.")
+        }
+      })
+    }
+  }
 
   const changeHandlere = (val: string) => {
     setUsername(val)
   }
 
-  // const register = async ({ username }) => {
-  //   axios.post({
-  //     method: 
-  //   })
-  // }
   return (
     <View>
       <Header />
       <View style={styles.content}>
-        {/* <View style={styles.data}>
-          <FlatList
-            data={users}
-            renderItem={({ item }) => (
-              <Text>{item.key} : {item.userName}</Text>
-            )}
-          />
-        </View> */}
         <Text>Enter name : </Text>
         <TextInput
           style={styles.input}
@@ -58,21 +80,32 @@ const Login = (prop: LoginScreenProps) => {
           onChangeText={changeHandlere}
         />
         <Button
-          onPress={login} //onPress={void}
+          onPress={() => login()} //onPress={void}
           title="Log in"
           color="#841584"
         />
-        <CButton onPress={login} >
+        <View style={styles.little_space}></View>
+        <CButton onPress={() => login()} >
           Login
         </CButton>
         <View style={styles.little_space}></View>
         <Button
-          onPress={login}
+          onPress={() => register()}
           title="Register"
           color="#841584"
         />
+        <CButton onPress={() => {
+          Alert.alert(
+            "Error",
+            "Username must be more than 2 character",
+            [{ text: "Cancel", style: "cancel" }],
+            {
+              cancelable: true,
+            }
+          );
+        }} >test</CButton>
       </View>
-    </View>
+    </View >
   )
 }
 

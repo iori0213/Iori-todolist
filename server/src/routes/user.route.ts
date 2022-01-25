@@ -33,7 +33,7 @@ router.post("/register/:userName", async (req, res) => {
     })
     if (result) {
         return res.json({
-            account_status: true,
+            register_status: false,
             message: "User name existed. Please login.",
         })
     } else {
@@ -41,6 +41,7 @@ router.post("/register/:userName", async (req, res) => {
         newUser.userName = postUserName;
         await userRepo.save(newUser);
         return res.json({
+            register_status: true,
             message: "Register process finished."
         })
     }

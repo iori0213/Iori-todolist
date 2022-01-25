@@ -2,16 +2,14 @@ import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
+import { LogBox } from 'react-native';
 import { StyleSheet, Text, View, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import Router from './routes/router';
 
 
-const login = () => {
-
-}
-
 
 const App = () => {
+  LogBox.ignoreLogs(['Remote debugger']);
   return (
     <Router />
   );
