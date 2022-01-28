@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react'
-import { FlatList, View, Text, TextInput, TouchableOpacity, StyleSheet, Button, Alert } from 'react-native'
+import { FlatList, View, Text, TextInput, TouchableOpacity, StyleSheet, Button, Alert, SafeAreaView } from 'react-native'
 import Header from '../components/Header'
 import CButton from '../components/CButton'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-const user_baseURL = "http://192.168.43.234:5000/api/v1/user";
+const localhost = "192.168.0.101"
+const user_baseURL = `http://${localhost}:5000/api/v1/user`;
+
 interface LoginScreenProps {
   navigation: any;
 }
@@ -70,46 +72,45 @@ const Login = (prop: LoginScreenProps) => {
   }
 
   return (
-    <View>
-      <Header title='Log in' />
+    <View style={{ backgroundColor: 'steelblue', flex: 1 }}>
+      <SafeAreaView style={styles.headerContainer}>
+        <Header title='Log in' />
+      </SafeAreaView>
       <View style={styles.content}>
-        <Text>Enter name : </Text>
+        <Text style={{ color: 'white', fontSize: 18 }}>Enter name : </Text>
         <TextInput
           style={styles.input}
           placeholder='User Name'
+          placeholderTextColor={'white'}
           onChangeText={changeHandlere}
         />
-        <Button
-          onPress={() => login()} //onPress={void}
-          title="Log in"
-          color="#841584"
-        />
-        <View style={styles.little_space}></View>
-        <CButton onPress={() => login()} >
-          Login
-        </CButton>
-        <View style={styles.little_space}></View>
-        <Button
+        <CButton
+          onPress={() => login()}
+          customContainerStyle={styles.login_btn}
+          customTextStyle={{ color: 'white' }}
+        >Login</CButton>
+        <CButton
           onPress={() => register()}
-          title="Register"
-          color="#841584"
-        />
-        <CButton onPress={() => {
-          Alert.alert(
-            "Error",
-            "Username must be more than 2 character",
-            [{ text: "Cancel", style: "cancel" }],
-            {
-              cancelable: true,
-            }
-          );
-        }} >test</CButton>
+          customContainerStyle={styles.login_btn}
+          customTextStyle={{ color: 'white' }}
+        >Register</CButton>
+
       </View>
     </View >
   )
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    // // flex: 0.05,
+    // height: '5%',
+    flexDirection: 'row',
+    backgroundColor: 'steelblue',
+    paddingTop: '10%',
+    borderBottomWidth: 3,
+    borderBottomColor: 'white',
+    marginHorizontal: '2%'
+  },
   content: {
     paddingTop: 100,
     alignItems: 'center',
@@ -117,10 +118,11 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    borderColor: 'lightgrey',
+    borderColor: 'white',
     padding: 8,
     margin: 10,
-    width: 200
+    width: 200,
+    color: 'white',
   },
   data: {
     borderWidth: 1,
@@ -128,12 +130,12 @@ const styles = StyleSheet.create({
     height: 150,
   },
   login_btn: {
-    width: 200,
-    borderWidth: 2,
-    borderColor: 'skyblue',
-    padding: 5,
-    marginTop: 5,
-    alignItems: 'center',
+    width: '25%',
+    alignContent: 'center',
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: 'white',
+    marginTop: '5%'
   },
   little_space: {
     height: 5,

@@ -104,13 +104,14 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                     <TextInput
                         style={styles.input}
                         placeholder='new todo'
+                        placeholderTextColor={'white'}
                         onChangeText={onChangeHandler}
                     />
                     <CButton customContainerStyle={styles.submitBtn} customTextStyle={styles.SBtext} onPress={() => newUTodo()}>Submit</CButton>
                 </View>
                 <Card containerStyle={styles.card_out} wrapperStyle={styles.card_in}>
                     <Card.Title>Uncompleted Todo</Card.Title>
-                    <Card.Divider />
+                    <Card.Divider color="steelblue" width={0.5} />
                     <FlatList
                         style={styles.list}
                         data={utodos}
@@ -124,7 +125,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                 </Card>
                 <Card containerStyle={styles.card_out} wrapperStyle={styles.card_in}>
                     <Card.Title>Completed Todo</Card.Title>
-                    <Card.Divider />
+                    <Card.Divider color="steelblue" width={0.5} />
                     <FlatList
                         style={styles.list}
                         data={ctodos}
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     headerContainer: {
         flex: 0.07,
         flexDirection: 'row',
-        backgroundColor: 'steelblue'
+        backgroundColor: 'steelblue',
     },
     title: {
         textAlign: 'center',
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#aaa'
+        backgroundColor: 'steelblue'
     },
     card_out: {
         flex: 1,
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
     },
     logoutBtn: {
         alignItems: 'flex-end',
-        backgroundColor: 'steelblue'
+        backgroundColor: 'steelblue',
     },
     AddContainer: {
         flexDirection: "row",
