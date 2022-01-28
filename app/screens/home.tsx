@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, TextInput } from "react-native";
 import { Card } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import CButton from "../components/CButton";
 import Todo from "../components/Todo"
 import Header from "../components/Header";
-import AddTodo from "../components/AddTodo";
 
 interface HomeScreenProps {
     navigation: any;
-}
-
-
-interface item {
-    "id": string;
-    "status": boolean;
-    "todo": string;
-    "userName": string;
 }
 
 const Home: React.FC<HomeScreenProps> = (prop) => {
@@ -26,6 +17,12 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
     const [username, setUsername] = useState("");
     const [ctodos, setCtodos] = useState<Todo[]>([]);
     const [utodos, setUtodos] = useState<Todo[]>([]);
+    const [ntodo, setNTodo] = useState("");
+
+    // Input text handler
+    const onChangeHandler = (val: string) => {
+        setNTodo(val);
+    }
 
     // AXIOS _GET uncompleted todos
     const getUTodo = async (username: string) => {
@@ -49,7 +46,19 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
             setCtodos(todos);
         })
     }
+
     // AXIOS _POST new todo
+    const newUTodo = async () => {
+        await axios({
+            method: 'post',
+            url: `${todo_baseURL}/`,
+            data: {
+                todo: ntodo,
+                userName: username,
+            }
+        });
+        await getUTodo(username);
+    }
 
     //_DEL log out function
     const logout = () => {
@@ -80,13 +89,20 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
         <View style={{ flex: 1 }}>
             <Header title={username} />
             <View style={styles.body}>
-                <AddTodo />
+                <View style={styles.AddContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='new todo'
+                        onChangeText={onChangeHandler}
+                    />
+                    <CButton customContainerStyle={styles.submitBtn} customTextStyle={styles.SBtext} onPress={() => newUTodo()}>Submit</CButton>
+                </View>
                 <Card containerStyle={styles.card_out} wrapperStyle={styles.card_in}>
                     <Card.Title>Uncompleted Todo</Card.Title>
                     <Card.Divider />
                     <FlatList
                         style={styles.list}
-                        data={ctodos}
+                        data={utodos}
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
@@ -100,7 +116,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                     <Card.Divider />
                     <FlatList
                         style={styles.list}
-                        data={utodos}
+                        data={ctodos}
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
@@ -150,5 +166,31 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: 10,
 
+    },
+    AddContainer: {
+        flexDirection: "row",
+        alignContent: 'stretch',
+        flex: 0.2,
+        width: '80%',
+        marginVertical: 5,
+    },
+    input: {
+        flex: 0.75,
+        borderBottomColor: 'white',
+        borderBottomWidth: 1,
+        marginBottom: 3,
+        color: 'white',
+    },
+    submitBtn: {
+        flex: 0.2,
+        height: '85%',
+        backgroundColor: "powderblue",
+        marginLeft: 'auto',
+        marginTop: 5,
+        borderRadius: 20,
+    },
+    SBtext: {
+        fontSize: 12,
+        color: 'midnightblue',
     },
 })

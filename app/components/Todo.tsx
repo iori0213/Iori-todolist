@@ -14,11 +14,6 @@ export default function TodoItem({ item }: any) {
         <TouchableOpacity style={styles.item}>
             <Text style={styles.todo}>{item.todo}</Text>
             <CButton customContainerStyle={styles.deleteBtn} customTextStyle={styles.text}>Delete</CButton>
-            {/* <Button
-                onPress={() => console.log('hellow')}
-                title="Delete"
-                color="pink"
-            /> */}
         </TouchableOpacity>
     )
 }
