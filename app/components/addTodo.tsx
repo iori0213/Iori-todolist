@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { View } from 'react-native';
 
-export default function AddTodo() {
-        <View style={styles.adding}>
-            
-        </View>
+interface addTodoProps {
+
 }
 
-const styles = StyleSheet.create({   
-    adding: {
-        height:30,
-        paddingTop:5,
-        backgroundColor: 'skyblue'
-    },
-})
+const addTodo: React.FC<addTodoProps> = ({ }) => {
+    return (
+        <View>
+
+        </View>
+    );
+}
+export default addTodo;

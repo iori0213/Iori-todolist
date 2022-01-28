@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity } from "react-native";
+import CButton from "./CButton";
 
 // interface item {
 //     "id": string;
@@ -10,19 +11,40 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function TodoItem({ item }: any) {
     return (
-        <TouchableOpacity>
-            <Text style={styles.item}>{item.todo}</Text>
+        <TouchableOpacity style={styles.item}>
+            <Text style={styles.todo}>{item.todo}</Text>
+            <CButton customContainerStyle={styles.deleteBtn} customTextStyle={{ fontSize: 12, }}>Delete</CButton>
+            {/* <Button
+                onPress={() => console.log('hellow')}
+                title="Delete"
+                color="pink"
+            /> */}
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     item: {
-        padding: 16,
-        marginTop: 16,
-        borderColor: "#bbb",
+        flexDirection: "row",
+        alignContent: 'stretch',
+        width: '90%',
+        padding: 10,
+        marginTop: 10,
+        marginHorizontal: '5%',
+        borderColor: "#aaa",
         borderWidth: 1,
         borderStyle: "dashed",
         borderRadius: 10,
+    },
+    todo: {
+        marginTop: 10,
+        alignContent: "center",
+        justifyContent: "center",
+    }
+    ,
+    deleteBtn: {
+        backgroundColor: "powderblue",
+        marginLeft: 'auto',
+        width: '17%',
     }
 })

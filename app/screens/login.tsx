@@ -71,7 +71,7 @@ const Login = (prop: LoginScreenProps) => {
 
   return (
     <View>
-      <Header />
+      <Header title='Log in' />
       <View style={styles.content}>
         <Text>Enter name : </Text>
         <TextInput

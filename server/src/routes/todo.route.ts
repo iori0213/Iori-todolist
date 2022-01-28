@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
 })
 
 //user's all completed todo
-router.get("/completedtodo/:username", async (req, res) => {
+router.get("/completed/:username", async (req, res) => {
     const userName = req.params.username;
     const todoRepo = getRepository(Todo);
     const result = await todoRepo.find({
@@ -52,7 +52,7 @@ router.get("/completedtodo/:username", async (req, res) => {
     })
 })
 //user's all uncompleted todo
-router.get("/uncompletedtodo/:username", async (req, res) => {
+router.get("/uncompleted/:username", async (req, res) => {
     const userName = req.params.username;
     const todoRepo = getRepository(Todo);
     const result = await todoRepo.find({
