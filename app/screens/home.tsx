@@ -6,6 +6,7 @@ import axios from "axios";
 import CButton from "../components/CButton";
 import Todo from "../components/Todo"
 import Header from "../components/Header";
+import AddTodo from "../components/AddTodo";
 
 interface HomeScreenProps {
     navigation: any;
@@ -79,6 +80,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
         <View style={{ flex: 1 }}>
             <Header title={username} />
             <View style={styles.body}>
+                <AddTodo />
                 <Card containerStyle={styles.card_out} wrapperStyle={styles.card_in}>
                     <Card.Title>Uncompleted Todo</Card.Title>
                     <Card.Divider />
@@ -95,7 +97,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                 </Card>
                 <Card containerStyle={styles.card_out} wrapperStyle={styles.card_in}>
                     <Card.Title>Completed Todo</Card.Title>
-                    <Card.Divider style={{ borderBottomColor: 'black' }} />
+                    <Card.Divider />
                     <FlatList
                         style={styles.list}
                         data={utodos}
@@ -107,7 +109,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         }}
                     />
                 </Card>
-                <CButton onPress={() => { logout() }} customContainerStyle={styles.logoutBtn} customTextStyle={{ color: 'darkblue' }}>log out</CButton>
+                {/* <CButton onPress={() => { logout() }} customContainerStyle={styles.logoutBtn} customTextStyle={{ color: 'darkblue' }}>log out</CButton> */}
             </View>
         </View>
     )
@@ -130,9 +132,11 @@ const styles = StyleSheet.create({
     },
     card_out: {
         flex: 1,
-        borderRadius: 30,
+        borderRadius: 40,
         backgroundColor: '#eee',
         marginHorizontal: '7%',
+        marginVertical: 5,
+        marginBottom: 5,
     },
     card_in: {
         backgroundColor: '#eee',

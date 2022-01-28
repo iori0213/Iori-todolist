@@ -13,7 +13,7 @@ export default function TodoItem({ item }: any) {
     return (
         <TouchableOpacity style={styles.item}>
             <Text style={styles.todo}>{item.todo}</Text>
-            <CButton customContainerStyle={styles.deleteBtn} customTextStyle={{ fontSize: 12, }}>Delete</CButton>
+            <CButton customContainerStyle={styles.deleteBtn} customTextStyle={styles.text}>Delete</CButton>
             {/* <Button
                 onPress={() => console.log('hellow')}
                 title="Delete"
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 10,
         marginHorizontal: '5%',
-        borderColor: "#aaa",
+        borderColor: "rosybrown",
         borderWidth: 1,
         borderStyle: "dashed",
         borderRadius: 10,
@@ -46,5 +46,9 @@ const styles = StyleSheet.create({
         backgroundColor: "powderblue",
         marginLeft: 'auto',
         width: '17%',
+    },
+    text: {
+        color: 'navy',
+        fontSize: 12,
     }
 })
