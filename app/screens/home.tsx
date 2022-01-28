@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TextInput } from "react-native";
+import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from "react-native";
 import { Card } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import CButton from "../components/CButton";
 import Todo from "../components/Todo"
 import Header from "../components/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome } from '@expo/vector-icons'
 
 interface HomeScreenProps {
     navigation: any;
 }
 
+const localhost = "192.168.0.101"
+const todo_baseURL = `http://${localhost}:5000/api/v1/todo`;
+
 const Home: React.FC<HomeScreenProps> = (prop) => {
-    const todo_baseURL = "http://192.168.43.234:5000/api/v1/todo"
 
     const [username, setUsername] = useState("");
     const [ctodos, setCtodos] = useState<Todo[]>([]);
@@ -60,12 +64,14 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
         await getUTodo(username);
     }
 
+
     //_DEL log out function
     const logout = () => {
-        SecureStore.deleteItemAsync("usrename").then(() => {
-            // navigate to login screen after delete
-            prop.navigation.navigate('Login')
-        })
+        SecureStore.deleteItemAsync("usrename")
+            .then(() => {
+                // navigate to login screen after delete
+                prop.navigation.navigate('Login')
+            })
     }
     // Initial loading process setUsername and getCTodo
     useEffect(() => {
@@ -87,7 +93,12 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <Header title={username} />
+            <SafeAreaView style={styles.headerContainer}>
+                <Header title={username} />
+                <TouchableOpacity style={styles.logoutBtn} onPress={() => { logout() }}>
+                    <FontAwesome name="sign-out" size={24} color="white" />
+                </TouchableOpacity>
+            </SafeAreaView>
             <View style={styles.body}>
                 <View style={styles.AddContainer}>
                     <TextInput
@@ -134,6 +145,11 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
 export default Home
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        flex: 0.07,
+        flexDirection: 'row',
+        backgroundColor: 'steelblue'
+    },
     title: {
         textAlign: 'center',
         color: 'white',
@@ -162,10 +178,8 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     logoutBtn: {
-        backgroundColor: 'skyblue',
-        margin: 5,
-        borderRadius: 10,
-
+        alignItems: 'flex-end',
+        backgroundColor: 'steelblue'
     },
     AddContainer: {
         flexDirection: "row",
