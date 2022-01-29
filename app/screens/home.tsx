@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from "react-native";
+import { View, Dimensions, StyleSheet, FlatList, TextInput, TouchableOpacity } from "react-native";
 import { Card } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
@@ -15,6 +15,9 @@ interface HomeScreenProps {
 
 const localhost = "192.168.0.101"
 const todo_baseURL = `http://${localhost}:5000/api/v1/todo`;
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Home: React.FC<HomeScreenProps> = (prop) => {
 
@@ -150,6 +153,8 @@ const styles = StyleSheet.create({
         flex: 0.07,
         flexDirection: 'row',
         backgroundColor: 'steelblue',
+        borderWidth: 1,
+        borderColor: 'red',
     },
     title: {
         textAlign: 'center',
@@ -164,6 +169,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'steelblue'
     },
     card_out: {
+        // width: windowWidth - 40,
         flex: 1,
         borderRadius: 40,
         backgroundColor: '#eee',
