@@ -23,17 +23,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'steelblue',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: 'green',
 
     },
     title: {
         textAlign: 'center',
         color: 'white',
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
-        paddingLeft: 20,
-        paddingBottom: '8%',
         // lineHeight: 60,
     }
 })

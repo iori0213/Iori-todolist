@@ -98,9 +98,15 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
         <View style={{ flex: 1 }}>
             <SafeAreaView style={styles.headerContainer}>
                 <Header title={username} />
-                <TouchableOpacity style={styles.logoutBtn} onPress={() => { logout() }}>
-                    <FontAwesome name="sign-out" size={24} color="white" />
-                </TouchableOpacity>
+                <View style={{
+                    height: 60,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                    <TouchableOpacity style={styles.logoutBtn} onPress={() => { logout() }}>
+                        <FontAwesome name="sign-out" size={24} color="white" />
+                    </TouchableOpacity>
+                </View>
             </SafeAreaView>
             <View style={styles.body}>
                 <View style={styles.AddContainer}>
@@ -121,7 +127,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
-                                <Todo item={item} />
+                                <Todo prop={item} />
                             )
                         }}
                     />
@@ -135,7 +141,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
-                                <Todo item={item} />
+                                <Todo prop={item} />
                             )
                         }}
                     />
@@ -150,11 +156,12 @@ export default Home
 
 const styles = StyleSheet.create({
     headerContainer: {
-        flex: 0.07,
+        flex: 0.1,
+        height: 60,
         flexDirection: 'row',
         backgroundColor: 'steelblue',
-        borderWidth: 1,
-        borderColor: 'red',
+        borderBottomWidth: 1,
+        borderBottomColor: 'white',
     },
     title: {
         textAlign: 'center',
@@ -166,7 +173,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'steelblue'
+        backgroundColor: 'steelblue',
     },
     card_out: {
         // width: windowWidth - 40,
@@ -178,6 +185,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     card_in: {
+        // flex: 1,
         backgroundColor: '#eee',
     },
     list: {
@@ -185,12 +193,13 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     logoutBtn: {
-        alignItems: 'flex-end',
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: 'steelblue',
     },
     AddContainer: {
         flexDirection: "row",
-        alignContent: 'stretch',
+        // alignContent: 'stretch',
         flex: 0.2,
         width: '80%',
         marginVertical: 5,
@@ -204,7 +213,7 @@ const styles = StyleSheet.create({
     },
     submitBtn: {
         flex: 0.2,
-        height: '85%',
+        height: '90%',
         backgroundColor: "powderblue",
         marginLeft: 'auto',
         marginTop: 5,

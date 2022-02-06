@@ -5,7 +5,7 @@ import Home from '../screens/home';
 import Login from '../screens/login';
 
 const Stack = createNativeStackNavigator();
-const Router = () => {
+const Router: React.FC = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Login" screenOptions={{
