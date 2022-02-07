@@ -5,7 +5,7 @@ import CButton from '../components/CButton'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-const localhost = "192.168.0.101"
+const localhost = "192.168.43.234"
 const user_baseURL = `http://${localhost}:5000/api/v1/user`;
 
 interface LoginScreenProps {

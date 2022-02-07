@@ -8,15 +8,20 @@ import CButton from "./CButton";
 //     "todo": string;
 //     "userName": string;
 // }
+interface props {
+    prop: Todo;
+}
 
-export default function TodoItem({ item }: any) {
+const TodoItem: React.FC<props> = ({ prop }) => {
     return (
         <TouchableOpacity style={styles.item}>
-            <Text style={styles.todo}>{item.todo}</Text>
+            <Text style={styles.todo}>{prop.todo}</Text>
             <CButton customContainerStyle={styles.deleteBtn} customTextStyle={styles.text}>Delete</CButton>
         </TouchableOpacity>
     )
 }
+
+export default TodoItem;
 
 const styles = StyleSheet.create({
     item: {

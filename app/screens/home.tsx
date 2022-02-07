@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import CButton from "../components/CButton";
-import Todo from "../components/Todo"
+import TodoItem from "../components/Todo"
 import Header from "../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from '@expo/vector-icons'
@@ -13,7 +13,7 @@ interface HomeScreenProps {
     navigation: any;
 }
 
-const localhost = "192.168.0.101"
+const localhost = "192.168.43.234"
 const todo_baseURL = `http://${localhost}:5000/api/v1/todo`;
 
 const windowWidth = Dimensions.get('window').width;
@@ -127,7 +127,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
-                                <Todo prop={item} />
+                                <TodoItem prop={item} />
                             )
                         }}
                     />
@@ -141,7 +141,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
-                                <Todo prop={item} />
+                                <TodoItem prop={item} />
                             )
                         }}
                     />
@@ -199,7 +199,6 @@ const styles = StyleSheet.create({
     },
     AddContainer: {
         flexDirection: "row",
-        // alignContent: 'stretch',
         flex: 0.2,
         width: '80%',
         marginVertical: 5,
