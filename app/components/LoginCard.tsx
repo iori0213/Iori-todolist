@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native';
-import CButton from '../components/CButton'
+import CButton from './CButton'
 
 interface LoginCardProps {
     message: string;

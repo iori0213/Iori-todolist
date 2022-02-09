@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Dimensions, StyleSheet, FlatList, TextInput, TouchableOpacity } from "react-native";
+import { View, Dimensions, StyleSheet, FlatList, TextInput, TouchableOpacity, Modal } from "react-native";
 import { Card } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
 import CButton from "../components/CButton";
 import TodoItem from "../components/Todo"
 import Header from "../components/Header";
+import LoginCard from "../components/LoginCard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from '@expo/vector-icons'
 
@@ -25,6 +26,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
     const [ctodos, setCtodos] = useState<Todo[]>([]);
     const [utodos, setUtodos] = useState<Todo[]>([]);
     const [ntodo, setNTodo] = useState("");
+    const [ntodoModal, setNtodoModal] = useState(false);
 
     // Input text handler
     const onChangeHandler = (val: string) => {
@@ -56,15 +58,19 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
 
     // AXIOS _POST new todo
     const newUTodo = async () => {
-        await axios({
-            method: 'post',
-            url: `${todo_baseURL}/`,
-            data: {
-                todo: ntodo,
-                userName: username,
-            }
-        });
-        await getUTodo(username);
+        if (ntodo) {
+            await axios({
+                method: 'post',
+                url: `${todo_baseURL}/`,
+                data: {
+                    todo: ntodo,
+                    userName: username,
+                }
+            });
+            await getUTodo(username);
+        } else {
+            setNtodoModal(!ntodoModal);
+        }
     }
 
 
@@ -109,6 +115,19 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                 </View>
             </SafeAreaView>
             <View style={styles.body}>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={ntodoModal}
+                    onRequestClose={() => {
+                        setNtodoModal(!ntodoModal);
+                    }}
+                >
+                    <LoginCard
+                        message='The todo is empty, please enter something!'
+                        func={() => setNtodoModal(!ntodoModal)}
+                    ></LoginCard>
+                </Modal>
                 <View style={styles.AddContainer}>
                     <TextInput
                         style={styles.input}
@@ -164,6 +183,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'white',
     },
     title: {
+        marginLeft: '5%',
         textAlign: 'center',
         color: 'white',
         fontSize: 20,
@@ -193,6 +213,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     logoutBtn: {
+        marginRight: '5%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'steelblue',
