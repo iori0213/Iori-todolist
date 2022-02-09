@@ -1,9 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import { FlatList, View, Text, TextInput, TouchableOpacity, StyleSheet, Button, Alert, SafeAreaView } from 'react-native'
+import { View, Text, TextInput, StyleSheet, SafeAreaView, Modal, Pressable } from 'react-native'
 import Header from '../components/Header'
 import CButton from '../components/CButton'
+import LoginCard from '../components/LoginCard'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { Button } from 'react-native-elements/dist/buttons/Button';
 
 const localhost = "192.168.43.234"
 const user_baseURL = `http://${localhost}:5000/api/v1/user`;
@@ -16,7 +18,8 @@ interface LoginScreenProps {
 const Login = (prop: LoginScreenProps) => {
   const [username, setUsername] = useState("");
 
-  //login button function // variable scope
+  //SECTION Functions　login button function // variable scope
+  //SECTION Login
   const login = async () => {
     if (!username) {
       console.log('missing username input')
@@ -41,11 +44,13 @@ const Login = (prop: LoginScreenProps) => {
         else {
           //login failed
           console.log("Please register this username to login.")
+          setLoginV(!loginV)
         }
       })
     }
   }
-
+  //!SECTION
+  //SECTION Register
   const register = async () => {
     if (!username) {
       console.log('missing username input')
@@ -59,17 +64,28 @@ const Login = (prop: LoginScreenProps) => {
         if (status) {
           //Register success
           console.log("Register success, please login with the username.")
+          setRegisterSuccessV(!registerSuccessV);
         } else {
           //account already existed
           console.log("Username has been registered, please login or change a username.")
+          setRegisterFailedV(!registerFailedV);
         }
       })
     }
   }
-
+  //!SECTION
+  //SECTION ChangeHandler
   const changeHandlere = (val: string) => {
     setUsername(val)
   }
+  //!SECTION
+  //!SECTION
+
+  //SECTION - ModalStatus
+  const [loginV, setLoginV] = useState(false);
+  const [registerSuccessV, setRegisterSuccessV] = useState(false);
+  const [registerFailedV, setRegisterFailedV] = useState(false);
+  //!SECTION
 
   return (
     <View style={{ backgroundColor: 'steelblue', flex: 1 }}>
@@ -77,6 +93,54 @@ const Login = (prop: LoginScreenProps) => {
         <Header title='Log in' />
       </SafeAreaView>
       <View style={styles.content}>
+        {/*   //SECTION - Modals */}
+        {/* //SECTION - LoginFailed */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={loginV}
+          onRequestClose={() => {
+            setLoginV(!loginV);
+          }}
+        >
+          <LoginCard
+            message='Please register this username to login.'
+            // status={loginV}
+            func={() => setLoginV(!loginV)}
+          ></LoginCard>
+        </Modal>
+        {/* //!SECTION */}
+        {/* //SECTION - RegisterSuccess   */}
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={registerSuccessV}
+          onRequestClose={() => {
+            setRegisterSuccessV(!registerSuccessV);
+          }}
+        >
+          <LoginCard
+            message='Register success, please login with the username.'
+            func={() => setRegisterSuccessV(!registerSuccessV)}
+          ></LoginCard>
+        </Modal>
+        {/* //!SECTION */}
+        {/* //SECTION RegisterFailed */}
+        <Modal
+          animationType='fade'
+          transparent={true}
+          visible={registerFailedV}
+          onRequestClose={() => {
+            setRegisterFailedV(!registerFailedV);
+          }}
+        >
+          <LoginCard
+            message='Username has been registered, please login or change a username.'
+            func={() => setRegisterFailedV(!registerFailedV)}
+          ></LoginCard>
+        </Modal>
+        {/* !SECTION */}
+        {/* !SECTION */}
         <Text style={{ color: 'white', fontSize: 18 }}>Enter name : </Text>
         <TextInput
           style={styles.input}
@@ -94,6 +158,7 @@ const Login = (prop: LoginScreenProps) => {
           customContainerStyle={styles.login_btn}
           customTextStyle={{ color: 'white' }}
         >Register</CButton>
+
 
       </View>
     </View >
@@ -139,7 +204,28 @@ const styles = StyleSheet.create({
   },
   little_space: {
     height: 5,
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'pink'
+  },
+  modalBtn: {
+    backgroundColor: "#F194FF",
+    alignItems: 'center',
+    marginTop: '5%',
+    padding: 10,
+    width: '20%',
+    borderRadius: 50,
+    elevation: 2,
+  },
+  modalText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+
 
 });
 
