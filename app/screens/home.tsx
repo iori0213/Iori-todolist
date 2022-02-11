@@ -73,6 +73,32 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
         }
     }
 
+    // AXIOS _PUT toggle todo status
+    const toggleTodo = async (InTodo: string, InStatus: boolean) => {
+        await axios({
+            method: 'put',
+            url: `${todo_baseURL}/`,
+            data: {
+                userName: username,
+                todo: InTodo,
+                status: InStatus
+            }
+        })
+        //Criteria
+        //change Utodo to Ctodo
+        if (!InStatus) {
+            const Criteria = utodos.filter(todo => todo.todo == InTodo && todo.status == InStatus)
+            setUtodos(utodos.filter(utodo => utodo.todo != InTodo && utodo.status != InStatus))
+            setCtodos(prev => (prev.concat(Criteria)))
+        }
+        //change Ctodo to Utodo
+        else {
+            const Criteria = ctodos.filter(todo => todo.todo == InTodo && todo.status == InStatus)
+            setCtodos(ctodos.filter(utodo => utodo.todo != InTodo && utodo.status != InStatus))
+            setUtodos(prev => (prev.concat(Criteria)))
+        }
+    }
+
 
     //_DEL log out function
     const logout = () => {
@@ -146,7 +172,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
-                                <TodoItem prop={item} />
+                                <TodoItem prop={item} func={() => toggleTodo(item.todo, item.status)} />
                             )
                         }}
                     />
@@ -160,7 +186,7 @@ const Home: React.FC<HomeScreenProps> = (prop) => {
                         keyExtractor={(_, index) => 'key' + index}
                         renderItem={({ item }) => {
                             return (
-                                <TodoItem prop={item} />
+                                <TodoItem prop={item} func={() => toggleTodo(item.todo, item.status)} />
                             )
                         }}
                     />
