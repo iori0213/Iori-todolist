@@ -1,18 +1,21 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
+import { Entity, ObjectIdColumn, ObjectID, Column, Generated } from "typeorm";
 
 @Entity()
 export class Todo {
 
-    @ObjectIdColumn()
-    id: ObjectID;
+  @ObjectIdColumn()
+  _id: ObjectID;
 
-    @Column()
-    todo: string;
+  @Generated("uuid")
+  id: string;
 
-    @Column()
-    status: boolean;
+  @Column()
+  todo: string;
 
-    @Column()
-    userName: string;
+  @Column()
+  status: boolean;
+
+  @Column()
+  userName: string;
 
 }
