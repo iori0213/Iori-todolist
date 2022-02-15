@@ -12,12 +12,12 @@ app.use(cors());
 app.use(express.json());
 
 const main = () => {
-    createConnection()
-        .then(async connection => {
-            app.use("/api/v1/user", userRouter);
-            app.use("/api/v1/todo", todoRouter);
-            app.listen(PORT, () => console.log(`Running on PORT: ${PORT}`))
-        }).catch(error => console.log(error));
+	createConnection()
+		.then(async connection => {
+			app.use("/api/v1/user", userRouter);
+			app.use("/api/v1/todo", todoRouter);
+			app.listen(PORT, () => console.log(`Running on PORT: ${PORT}`))
+		}).catch(error => console.log(error));
 }
 
 main();
